@@ -1,0 +1,16 @@
+#!/bin/bash
+set -ex
+
+echo "Running tests..."
+
+export NODE18=${1:-"ubuntu/chiselled-node:18-test"}
+
+CURRENT_DIR="$(dirname "$(readlink -f "$0")")"
+
+for test_dir in "$CURRENT_DIR"/*/; do
+    pushd "$test_dir"
+
+    ./runtest
+
+    popd
+done
