@@ -1,0 +1,4 @@
+node_modules/
+dist/
+# we are not a serious Node.js project, so we will ignore package-lock.json
+package-lock.json
