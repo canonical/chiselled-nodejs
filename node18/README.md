@@ -155,3 +155,12 @@ for instance:
 You got `node_modules/@serialport/bindings-cpp/prebuilds/linux-x64/node.napi.glibc.node` in the output,
 and copied your JavaScript file to `/app/index.js`, you need to copy the native extension file to
 `/app/node_modules/@serialport/bindings-cpp/prebuilds/linux-x64/node.napi.glibc.node`.
+
+If your application contains WebAssembly bits, you should also copy those to the chiselled container.
+Use the following command to find them:
+
+```sh
+find node_modules -name '*.wasm' -type f -print
+```
+
+You can take a look at tests/app_simple-wasm for inspirations.
