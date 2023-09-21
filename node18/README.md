@@ -64,7 +64,7 @@ If you have a JavaScript/TypeScript application managed using `npm`, `yarn`, `pn
 you might want to bundle your application using a bundler that bundles your `node_modules` and your
 application into one single file.
 
-There are a lot of different bundlers that may suitable for your application, like [`esbuild`](https://esbuild.github.io/), [`rspack`](https://www.rspack.dev/),
+There are a lot of different bundlers that may be suitable for your application, like [`esbuild`](https://esbuild.github.io/), [`rspack`](https://www.rspack.dev/),
 [`vite`](https://vitejs.dev/), [`rollup`](https://rollupjs.org/), [`farm`](https://farm-fe.github.io/), [`webpack`](https://webpack.js.org/), [`parcel`](https://parceljs.org/) and so forth.
 You might want to pick one that suit your project best and use that to bundle your application.
 
@@ -152,7 +152,7 @@ If nothing got printed out, then it means your application does not have any nat
 If you got any output, then you need to copy those files to the container with the same path as well,
 for instance:
 
-You got `node_modules/@serialport/bindings-cpp/prebuilds/linux-x64/node.napi.glibc.node` in the output,
+If you got `node_modules/@serialport/bindings-cpp/prebuilds/linux-x64/node.napi.glibc.node` in the output,
 and copied your JavaScript file to `/app/index.js`, you need to copy the native extension file to
 `/app/node_modules/@serialport/bindings-cpp/prebuilds/linux-x64/node.napi.glibc.node`.
 
@@ -163,4 +163,4 @@ Use the following command to find them:
 find node_modules -name '*.wasm' -type f -print
 ```
 
-You can take a look at tests/app_simple-wasm for inspirations.
+You can take a look at [tests/app_simple-wasm](../tests/app_simple-wasm/) for inspirations.
