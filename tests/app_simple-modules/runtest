@@ -1,0 +1,16 @@
+#!/bin/bash
+set -ex
+
+echo "Running test for simple JS bundled app..."
+
+build() {
+    npm i
+    npm run build
+}
+
+test() {
+	docker run --rm -v "$PWD/dist":/src:ro "$1" /src/index.js
+}
+
+build
+test "$NODE18"

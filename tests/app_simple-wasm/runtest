@@ -1,0 +1,18 @@
+#!/bin/bash
+set -ex
+
+echo "Running test for simple JS bundled app with WASM..."
+
+build() {
+    npm i
+    npm run asbuild
+    npm run build
+    install -Dvm644 "$PWD/build/release.wasm" "$PWD/dist"
+}
+
+test() {
+	docker run --rm -v "$PWD/dist":/src:ro "$1" /src/index.mjs
+}
+
+build
+test "$NODE18"

@@ -1,0 +1,14 @@
+{
+  "name": "test-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "esbuild --target=node18 --bundle --minify --platform=node index.js --outfile=dist/index.js"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.9",
+    "esbuild": "^0.19.2",
+    "node-fetch": "^3.3.2"
+  }
+}
