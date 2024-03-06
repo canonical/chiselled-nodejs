@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 env:
   node18-image: ubuntu/chiselled-node:18-test
-  ubuntu-release: 23.04
+  ubuntu-release: 24.04
 
 jobs:
   test:
