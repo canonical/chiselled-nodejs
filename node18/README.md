@@ -3,7 +3,7 @@
 This directory contains the image recipes of Chiselled Node.js 18 LTS. These images are smaller in size,
 hence less prone to vulnerabilities. Know more about chisel [here](https://github.com/canonical/chisel).
 
-We currently have Chiselled Node.js only on lunar. See [Dockerfile.23.04](./Dockerfile.23.04).
+We currently have Chiselled Node.js only on noble. See [Dockerfile.24.04](./Dockerfile.24.04).
 
 ### Building the image(s)
 
@@ -11,7 +11,7 @@ Build the Dockerfile(s) in the usual way:
 
 ```sh
 # NOTE: export DOCKER_BUILDKIT=1 if you're running on an older Docker version
-$ docker build -t ubuntu/chiselled-node:18 --load -f node18/Dockerfile.23.04 node18
+$ docker build -t ubuntu/chiselled-node:18 --load -f node18/Dockerfile.24.04 node18
 ```
 
 ### Run the image(s)
