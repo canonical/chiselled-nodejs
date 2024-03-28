@@ -4,6 +4,7 @@ on: [push, pull_request]
 
 env:
   node18-image: ubuntu/chiselled-node:18-test
+  node20-image: ubuntu/nodejs:20-test
   ubuntu-release: 24.04
 
 jobs:
@@ -35,6 +36,13 @@ jobs:
             --output type=oci,dest="chiselled-node.${{ matrix.arch }}.tar" \
             node18
 
+      - name: Build the ${{ env.node20-image }} image on ${{ matrix.arch }}
+        id: build
+        uses: canonical/craft-actions/rockcraft-pack@main
+        with:
+          path: node20/
+          verbosity: debug
+
       - name: Run tests
         if: ${{ matrix.arch == 'amd64' }}
         run: |
@@ -42,7 +50,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y skopeo
           skopeo copy oci-archive:"chiselled-node.${{ matrix.arch }}.tar" docker-daemon:${{ env.node18-image }}
+          skopeo copy oci-archive:node20/nodejs_20_amd64.rock docker-daemon:${{ env.node20-image }}
           ./tests/run-all-tests ${{ env.node18-image }}
+          ./tests/run-all-tests ${{ env.node20-image }}
 
       - uses: actions/upload-artifact@v3
         with:

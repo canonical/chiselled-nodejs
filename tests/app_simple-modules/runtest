@@ -9,8 +9,12 @@ build() {
 }
 
 test() {
-	docker run --rm -v "$PWD/dist":/src:ro "$1" /src/index.js
+    if [ "$1" == "$NODE18" ]; then
+        docker run --rm -v "$PWD/dist":/src:ro "$1" /src/index.js
+    else
+        docker run --rm -v "$PWD/dist":/src:ro "$1" exec node /src/index.js
+    fi
 }
 
 build
-test "$NODE18"
+test "$NODE_X"

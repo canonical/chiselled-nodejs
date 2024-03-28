@@ -3,7 +3,9 @@ set -ex
 
 echo "Running tests..."
 
-export NODE18=${1:-"ubuntu/chiselled-node:18-test"}
+export NODE_X=${1:-"ubuntu/chiselled-node:18-test"}
+export NODE18="ubuntu/chiselled-node:18-test"
+export NODE20="ubuntu/nodejs:20-test"
 
 CURRENT_DIR="$(dirname "$(readlink -f "$0")")"
 

@@ -5,7 +5,11 @@ echo "Running test for HTTP Server app..."
 
 test() {
 	port=1234
-	container="$(docker run -d --rm -v "$PWD/src":/src:ro -p $port:8080 "$1" /src/main.js)"
+	if [ "$1" == "$NODE18" ]; then
+		container="$(docker run -d --rm -v "$PWD/src":/src:ro -p $port:8080 "$1" /src/main.js)"
+	else
+		container="$(docker run -d --rm -v "$PWD/src":/src:ro -p $port:8080 "$1" exec node /src/main.js)"
+	fi
 	sleep 1
 	output="$(curl http://localhost:$port/)"
 	[ "$output" == "Hello world!" ] || exit 1
@@ -16,4 +20,4 @@ cleanup() {
 }
 trap cleanup EXIT
 
-test "$NODE18"
+test "$NODE_X"
