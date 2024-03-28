@@ -19,9 +19,7 @@ parts:
     nodejs:
         plugin: nil
         stage-packages:
-          - bash_bins
           - base-files_lib
-          - coreutils_bins
           - libbrotli1_libs
           - libc-ares2_libs
           - libicu74_libs
@@ -29,12 +27,13 @@ parts:
           - libssl3_libs
           - libstdc++6_libs
           - libuv1_libs
-          - sed_bins
           - zlib1g_libs
         stage-snaps:
           - node/20
         override-prime: |
           craftctl default
-          ln -s ${CRAFT_PRIME}/usr/bin/bash ${CRAFT_PRIME}/bin/sh
+          rm -rf ${CRAFT_PRIME}/lib/node_modules/
+          rm ${CRAFT_PRIME}/bin/npm ${CRAFT_PRIME}/bin/npx
+          rm ${CRAFT_PRIME}/bin/corepack ${CRAFT_PRIME}/bin/yarn*
           ln -s ${CRAFT_PRIME}/bin/node ${CRAFT_PRIME}/bin/nodejs
           ln -s ${CRAFT_PRIME}/bin/node ${CRAFT_PRIME}/bin/js
