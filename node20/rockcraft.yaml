@@ -7,8 +7,8 @@ description: |
     Node.js is a free, open-source, cross-platform JavaScript runtime
     environment that lets developers create servers, web apps, command line
     tools and scripts.
-    This image is a chiselled Node.js rock that contains Node.js runtime in
-    addition to some Node.js tools such as npx, npm and yarn.
+    This image is a chiselled Node.js rock that only contains the Node.js
+    runtime.
 license: MIT
 platforms:
     amd64:
@@ -27,6 +27,9 @@ parts:
           - libssl3_libs
           - libstdc++6_libs
           - libuv1_libs
+          - openssl_config
+          - openssl_data
+          - tzdata_zoneinfo
           - zlib1g_libs
         stage-snaps:
           - node/20
