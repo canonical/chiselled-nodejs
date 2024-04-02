@@ -4,7 +4,11 @@ set -ex
 echo "Running test for Hello World app..."
 
 test() {
-	docker run --rm -v "$PWD/src":/src:ro "$1" /src/main.js
+	if [ "$1" == "$NODE18" ]; then
+		docker run --rm -v "$PWD/src":/src:ro "$1" /src/main.js
+	else
+		docker run --rm -v "$PWD/src":/src:ro "$1" exec node /src/main.js
+	fi
 }
 
-test "$NODE18"
+test "$NODE_X"
