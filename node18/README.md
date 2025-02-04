@@ -10,8 +10,15 @@ We currently have Chiselled Node.js only on noble. See [Dockerfile.24.04](./Dock
 Build the Dockerfile(s) in the usual way:
 
 ```sh
-# NOTE: export DOCKER_BUILDKIT=1 if you're running on an older Docker version
-$ docker build -t ubuntu/chiselled-node:18 --load -f node18/Dockerfile.24.04 node18
+$ rockcraft pack
+```
+
+Convert the rock to a Docker image using the `skopeo` tool:
+
+```sh
+$ skopeo --insecure-policy copy \
+      oci-archive:nodejs_18_amd64.rock \
+      docker-daemon:ubuntu/chiselled-node:18
 ```
 
 ### Run the image(s)
@@ -19,8 +26,8 @@ $ docker build -t ubuntu/chiselled-node:18 --load -f node18/Dockerfile.24.04 nod
 The image has the "node" binary as the entrypoint.
 
 ```sh
-$ docker run -it ubuntu/chiselled-node:18
-Welcome to Node.js v18.13.0.
+$ docker run -it ubuntu/chiselled-node:18 exec node
+Welcome to Node.js v18.19.1.
 Type ".help" for more information.
 ...
 ```
