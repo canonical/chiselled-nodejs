@@ -46,8 +46,8 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          path: chiselled-node-oci-tarballs
-          pattern: chiselled-node.*.tar
+          path: chiselled-node.*.tar
+          pattern: chiselled-node*
           merge-multiple: true
 
       - id: set-outputs
