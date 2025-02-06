@@ -18,7 +18,7 @@ jobs:
         arch: ["amd64", "arm", "arm64", "s390x", "ppc64le"]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -42,9 +42,9 @@ jobs:
           skopeo copy oci-archive:"node18/nodejs_18_amd64.rock" docker-daemon:${{ env.node18-image }}
           ./tests/run-all-tests ${{ env.node18-image }}
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
-          name: chiselled-node-oci-tarballs
+          name: chiselled-node-oci-tarball-${{ matrix.arch }}
           path: chiselled-node.*.tar
 
       - id: set-outputs
