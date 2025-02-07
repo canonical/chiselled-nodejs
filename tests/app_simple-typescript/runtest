@@ -11,7 +11,11 @@ build() {
 
 test() {
 	port=1234
-	container="$(docker run -d --rm -v "$PWD/dist":/src:ro -p $port:3000 "$1" /src/index.js)"
+	if [ "$1" == "$NODE18" ]; then
+		container="$(docker run -d --rm -v "$PWD/dist":/src:ro -p $port:3000 "$1" /src/index.js)"
+	else
+		container="$(docker run -d --rm -v "$PWD/dist":/src:ro -p $port:3000 "$1" exec node /src/index.js)"
+	fi
 	sleep 1
 	local output expected
 	output="$(curl http://localhost:$port/)"
@@ -27,4 +31,4 @@ cleanup() {
 trap cleanup EXIT
 
 build
-test "$NODE18"
+test "$NODE_X"

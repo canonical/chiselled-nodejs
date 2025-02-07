@@ -1,0 +1,42 @@
+name: nodejs
+base: bare
+build-base: devel
+version: '20'
+summary: Node.js 20 rock
+description: |
+    Node.js is a free, open-source, cross-platform JavaScript runtime
+    environment that lets developers create servers, web apps, command line
+    tools and scripts.
+    This image is a chiselled Node.js rock that only contains the Node.js
+    runtime.
+license: MIT
+platforms:
+    amd64:
+
+run-user: _daemon_
+
+parts:
+    nodejs:
+        plugin: nil
+        stage-packages:
+          - base-files_lib
+          - libbrotli1_libs
+          - libc-ares2_libs
+          - libicu74_libs
+          - libnghttp2-14_libs
+          - libssl3_libs
+          - libstdc++6_libs
+          - libuv1_libs
+          - openssl_config
+          - openssl_data
+          - tzdata_zoneinfo
+          - zlib1g_libs
+        stage-snaps:
+          - node/20
+        override-prime: |
+          craftctl default
+          rm -rf ${CRAFT_PRIME}/lib/node_modules/
+          rm ${CRAFT_PRIME}/bin/npm ${CRAFT_PRIME}/bin/npx
+          rm ${CRAFT_PRIME}/bin/corepack ${CRAFT_PRIME}/bin/yarn*
+          ln -s ${CRAFT_PRIME}/bin/node ${CRAFT_PRIME}/bin/nodejs
+          ln -s ${CRAFT_PRIME}/bin/node ${CRAFT_PRIME}/bin/js
