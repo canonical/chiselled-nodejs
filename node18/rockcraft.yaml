@@ -1,6 +1,4 @@
 name: nodejs
-base: bare
-build-base: ubuntu@24.04
 version: '18'
 summary: Node.js 18 rock
 description: |
@@ -10,8 +8,13 @@ description: |
     This image is a chiselled Node.js rock that only contains the Node.js
     runtime.
 license: MIT
+
 platforms:
     amd64:
+
+base: bare
+build-base: ubuntu@24.04
+
 parts:
     nodejs:
         plugin: nil
