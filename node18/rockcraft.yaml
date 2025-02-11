@@ -21,6 +21,7 @@ parts:
         stage-packages:
           - base-files_base
           - base-files_release-info
+          - base-files_chisel
           - tzdata_zoneinfo
           - ca-certificates_data
           - openssl_config
