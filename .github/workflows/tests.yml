@@ -39,13 +39,13 @@ jobs:
           set -ex
           sudo apt-get update
           sudo apt-get install -y skopeo
-          skopeo copy oci-archive:"node18/nodejs_18_amd64.rock" docker-daemon:${{ env.node18-image }}
+          skopeo copy oci-archive:"node18/${{ steps.build.outputs.rock }}" docker-daemon:${{ env.node18-image }}
           ./tests/run-all-tests ${{ env.node18-image }}
 
       - uses: actions/upload-artifact@v4
         with:
-          name: chiselled-node-oci-tarball-${{ matrix.arch }}
-          path: chiselled-node.*.tar
+          name: chiselled-node-${{ matrix.arch }}-rock
+          path: node18/${{ steps.build.outputs.rock }}
 
       - id: set-outputs
         if: always()
