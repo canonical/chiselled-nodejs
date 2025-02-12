@@ -7,7 +7,7 @@ jobs:
     uses: canonical/oci-factory/.github/workflows/Build-Rock.yaml@main
     with:
       oci-archive-name: "chiselled_node"
-      rock-repo: ${{ github.repository }}
+      rock-repo: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name || github.repository }}
       rock-repo-commit: ${{ github.event_name == 'push' && github.ref_name || github.head_ref }}
       rockfile-directory: node18
 
@@ -21,7 +21,7 @@ jobs:
   notify:
     needs:
       - test
-    if: always()
+    if: always() && github.event_name == 'pull_request'
     name: Post workflow status to Mattermost
     runs-on: ubuntu-latest
 
