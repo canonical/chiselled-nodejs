@@ -21,7 +21,7 @@ jobs:
   notify:
     needs:
       - test
-    if: always() && github.event_name == 'pull_request'
+    if: ${{ github.event_name == 'push' && !cancelled() }}
     name: Post workflow status to Mattermost
     runs-on: ubuntu-latest
 
