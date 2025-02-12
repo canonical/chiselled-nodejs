@@ -1,56 +1,26 @@
 name: Tests
 
-on: [push, pull_request]
-
-env:
-  node18-image: ubuntu/chiselled-node:18-test
-  ubuntu-release: 24.04
+on:
+  push:
+    paths:
+      - .github/workflows/tests.yml
+  workflow_dispatch:
 
 jobs:
+  build:
+    uses: canonical/oci-factory/.github/workflows/Build-Rock.yaml@main
+    with:
+      oci-archive-name: "chiselled_node"
+      rock-repo: ${{ github.repository }}
+      rock-repo-commit: ${{ github.ref_name }}
+      rockfile-directory: node18
+
   test:
-    name: Build and test
-    runs-on: ubuntu-latest
-    outputs:
-      test_status: ${{ steps.set-outputs.outputs.status }}
-    strategy:
-      fail-fast: false
-      matrix:
-        arch: ["amd64", "arm", "arm64", "s390x", "ppc64le"]
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Build the ${{ env.node18-image }} image on ${{ matrix.arch }}
-        id: build
-        uses: canonical/craft-actions/rockcraft-pack@main
-        with:
-          path: node18/
-          verbosity: debug
-
-      - name: Run tests
-        if: ${{ matrix.arch == 'amd64' }}
-        run: |
-          set -ex
-          sudo apt-get update
-          sudo apt-get install -y skopeo
-          skopeo copy oci-archive:"${{ steps.build.outputs.rock }}" docker-daemon:${{ env.node18-image }}
-          ./tests/run-all-tests ${{ env.node18-image }}
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: chiselled-node-${{ matrix.arch }}-rock
-          path: ${{ steps.build.outputs.rock }}
-
-      - id: set-outputs
-        if: always()
-        run: |
-          echo "status=${{ job.status }}" >> $GITHUB_OUTPUT
+    uses: canonical/oci-factory/.github/workflows/Test-Rock.yaml@main
+    needs: 
+      - build
+    with:
+      oci-archive-name: "chiselled_node"
 
   notify:
     needs:
@@ -64,7 +34,7 @@ jobs:
         run: |
           set -eu
 
-          case "${{ needs.test.outputs.test_status }}" in
+          case "${{ needs.test.result }}" in
             failure) msg_icon=":x:" ;;
             success) msg_icon=":white_check_mark:" ;;
             cancelled) msg_icon=":no_entry_sign:" ;;
@@ -72,7 +42,7 @@ jobs:
           esac
 
           msg=$(cat << EOF
-          ##### $msg_icon GitHub Workflow '${{ github.workflow	}}' execution [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) has ended with the status \`${{ needs.test.outputs.test_status }}\`, for:
+          ##### $msg_icon GitHub Workflow '${{ github.workflow	}}' execution [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) has ended with the status \`${{ needs.test.result }}\`, for:
            - Project: [${{ github.repository }}](${{ github.server_url }}/${{ github.repository }})
            - Branch: [${{ github.ref_name }}](${{ github.server_url }}/${{ github.repository }}/tree/${{ github.ref_name }})
            - Commit: [${{ github.sha }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}); _${{ github.event.head_commit.message }}_
