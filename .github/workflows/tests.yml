@@ -1,9 +1,6 @@
 name: Tests
 
-on:
-  push:
-    paths:
-      - .github/workflows/tests.yml
+on: [push, pull_request]
 
 jobs:
   build:
@@ -11,7 +8,7 @@ jobs:
     with:
       oci-archive-name: "chiselled_node"
       rock-repo: ${{ github.repository }}
-      rock-repo-commit: ${{ github.ref_name }}
+      rock-repo-commit: ${{ github.event_name == 'push' && github.ref_name || github.head_ref }}
       rockfile-directory: node18
 
   test:
