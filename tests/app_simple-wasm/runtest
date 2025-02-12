@@ -11,7 +11,7 @@ build() {
 }
 
 test() {
-	docker run --rm -v "$PWD/dist":/src:ro "$1" /src/index.mjs
+	docker run --rm -v "$PWD/dist":/src:ro "$1" exec node /src/index.mjs
 }
 
 build

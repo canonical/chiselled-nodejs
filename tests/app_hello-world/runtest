@@ -4,7 +4,7 @@ set -ex
 echo "Running test for Hello World app..."
 
 test() {
-	docker run --rm -v "$PWD/src":/src:ro "$1" /src/main.js
+	docker run --rm -v "$PWD/src":/src:ro "$1" exec node /src/main.js
 }
 
 test "$NODE18"
