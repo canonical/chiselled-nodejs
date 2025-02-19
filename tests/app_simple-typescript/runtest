@@ -11,7 +11,7 @@ build() {
 
 test() {
 	port=1234
-	container="$(docker run -d --rm -v "$PWD/dist":/src:ro -p $port:3000 "$1" /src/index.js)"
+	container="$(docker run -d --rm -v "$PWD/dist":/src:ro -p $port:3000 "$1" exec node /src/index.js)"
 	sleep 1
 	local output expected
 	output="$(curl http://localhost:$port/)"

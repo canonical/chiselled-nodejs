@@ -1,0 +1,31 @@
+name: nodejs
+version: '18'
+summary: Node.js 18 rock
+description: |
+    Node.js is a free, open-source, cross-platform JavaScript runtime
+    environment that lets developers create servers, web apps, command line
+    tools and scripts.
+    This image is a chiselled Node.js rock that only contains the Node.js
+    runtime.
+license: MIT
+
+platforms:
+    amd64:
+
+base: bare
+build-base: ubuntu@24.04
+
+parts:
+    nodejs:
+        plugin: nil
+        stage-packages:
+          - base-files_base
+          - base-files_release-info
+          - base-files_chisel
+          - tzdata_zoneinfo
+          - ca-certificates_data
+          - openssl_config
+          - openssl_data
+          - libgcc-s1_libs
+          - libc6_libs
+          - nodejs_bins

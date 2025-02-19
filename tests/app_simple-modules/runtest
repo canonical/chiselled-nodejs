@@ -9,7 +9,7 @@ build() {
 }
 
 test() {
-	docker run --rm -v "$PWD/dist":/src:ro "$1" /src/index.js
+	docker run --rm -v "$PWD/dist":/src:ro "$1" exec node /src/index.js
 }
 
 build
